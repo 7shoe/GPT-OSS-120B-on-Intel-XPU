@@ -4,71 +4,53 @@ This repository contains everything needed to build and run OpenAI's GPT-OSS-120
 
 ## Overview
 
-GPT-OSS-120B is a 116.8 billion parameter Mixture of Experts (MoE) model released by OpenAI. Despite its massive size (60 GB), this setup enables efficient inference on a **single Intel GPU** using memory mapping and the SYCL programming model.
+GPT-OSS-120B is a 116.8B parameter Mixture of Experts (MoE) model released by OpenAI with 60 GB on a **single Intel XPU** using memory mapping and the SYCL programming model.
 
-**Key Features**:
-- ✅ **Single GPU** operation (no multi-GPU required!)
-- ✅ 100% GPU offloading (all 37 layers)
-- ✅ ~22 tokens/second generation speed
-- ✅ Only ~1.6 GB GPU VRAM used
-- ✅ Support for 131K context length
-- ✅ MoE with 128 experts, 4 active per token
-
-## Hardware Requirements
-
-### Minimum
+### Hardware Requirements
 - Intel Data Center GPU Max 1550 (Ponte Vecchio)
 - 64 GB System RAM (for memory-mapped model)
 - x86_64 Linux system
 
-### Recommended
-- Intel Data Center GPU Max 1550 with 64 GB HBM
-- 128+ GB System RAM
-- NVMe SSD for fast model loading
-
-## Software Requirements
-
-- Intel oneAPI Base Toolkit 2025.2.1 or later
-- Vulkan SDK 1.4.321.1 or later
+### Software Requirements
+This will only work for ... 
+- Intel oneAPI Base Toolkit 25.190.0
+- Vulkan SDK 1.4.321.1
 - CMake 3.18+
 - GCC 7+ or Intel C++ Compiler (icx/icpx)
-- Git
-- ~60 GB free disk space for model
+- ~60 GB free disk space for model (do not put in `/home`)
 
 ## Quick Start
 
-### 1. Setup Vulkan SDK
-
+### 1. Clone repo
+Navigate to directory (not `home`) and clone repo.
+```
+module load frameworks
+git clone git@github.com:7shoe/gpt-oss-120b-intel-max-gpu.git
+cd gpt-oss-120b-intel-max-gpu
+```
+### 2. Setup Vulkan SDK
+Create directory `1.4.321.1` via 
 ```bash
 cd scripts
 ./setup-vulkan-sdk.sh
 ```
 
-### 2. Build llama.cpp with SYCL
-
+### 3. Build llama.cpp with SYCL
+Clone the llama.cpp repo, re-set it to the target date October 5th.
+Tehn, it will apply necessary patches for Intel GPU compatibility and build with SYCL backend using Intel compiler.
 ```bash
 ./build-llama-cpp.sh
 ```
 
-This script will:
-- Clone llama.cpp from GitHub
-- Apply necessary patches for Intel GPU compatibility
-- Build with SYCL backend using Intel compilers
-
-### 3. Download GPT-OSS-120B Model
-
+### 4. Download GPT-OSS-120B Model
+The quantized model is provided on unsloth's [Huggingface repo](https://huggingface.co/unsloth/gpt-oss-120b-GGUF).
+It is the model with weights `gpt-oss-120b-Q4_K_M-00001-of-00002.gguf` (47 GB) and `gpt-oss-120b-Q4_K_M-00002-of-00002.gguf` (13 GB).
 ```bash
 ./download-gpt-oss-120b.sh
 ```
 
-Downloads the Q4_K_M quantized model in 2 parts (~60 GB total):
-- Part 1: ~47 GB
-- Part 2: ~13 GB
-
-**Download time**: 20-60 minutes depending on connection
-
 ### 4. Run Inference
-
+Check if it works:
 ```bash
 ./run-inference.sh "What is the meaning of life?"
 ```
@@ -76,62 +58,6 @@ Downloads the Q4_K_M quantized model in 2 parts (~60 GB total):
 **Note**: First load takes 60-90 seconds as the model initializes.
 
 ## Model Specifications
-
-### GPT-OSS-120B Details
-- **Parameters**: 116.83 billion
-- **Architecture**: 36 layers
-- **Experts**: 128 total, 4 active per token
-- **Size**: 58.45 GB (Q4_K_M)
-- **Context**: Up to 131K tokens
-- **Quantization**: Q4_K_M with MXFP4 for FFN layers
-
-### Memory Usage
-- **GPU VRAM**: ~1.6 GB (active layers only)
-- **Host RAM**: ~59 GB (memory-mapped model)
-- **Total**: ~60 GB combined
-
-This memory-efficient design allows a 120B model to run on a **single GPU**!
-
-## Performance Benchmarks
-
-**Test System**: Intel Data Center GPU Max 1550
-
-| Metric | Value |
-|--------|-------|
-| Prompt Processing | 72-73 tok/s |
-| Token Generation | 21-22 tok/s |
-| First Token Latency | ~180 ms |
-| Model Load Time | 60-90 seconds |
-| GPU VRAM Usage | 1.6 GB |
-| Host RAM Usage | 59 GB |
-| Layers on GPU | 37/37 (100%) |
-
-## How It Works: Single GPU for 120B Model
-
-The key to running a 60 GB model on a single GPU:
-
-1. **Memory Mapping**: Model stays in host RAM, streamed to GPU as needed
-2. **Layer Offloading**: All 37 layers execute on GPU for performance
-3. **Efficient Quantization**: Q4_K_M + MXFP4 minimizes memory footprint
-4. **High Bandwidth**: Intel MAX GPU 1550's 1.6 TB/s HBM enables fast transfers
-
-Result: **Full 120B model inference on one GPU!**
-
-## Comparison: 120B vs 20B
-
-| Feature | 20B | 120B |
-|---------|-----|------|
-| Parameters | 20.91B | 116.83B |
-| Layers | 24 | 36 |
-| Experts | 32 (4 active) | 128 (4 active) |
-| Model Size | 11 GB | 60 GB |
-| GPU VRAM | 1.5 GB | 1.6 GB |
-| RAM Required | 11 GB | 60 GB |
-| Prompt Speed | 118 tok/s | 73 tok/s |
-| Gen Speed | 35 tok/s | 22 tok/s |
-| Load Time | 1-14s | 60-90s |
-
-## Running Inference
 
 ### Basic Usage
 
