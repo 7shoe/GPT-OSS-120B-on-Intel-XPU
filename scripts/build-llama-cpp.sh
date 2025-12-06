@@ -6,7 +6,9 @@ set -e
 # Configuration
 LLAMA_CPP_REPO="https://github.com/ggml-org/llama.cpp"
 LLAMA_CPP_DIR="llama.cpp"
-PATCHES_DIR="/lus/flare/projects/FoundEpidem/siebenschuh/gpt-oss-120b-intel-max-gpu/patches"
+#PATCHES_DIR="/lus/flare/projects/FoundEpidem/siebenschuh/gpt-oss-120b-intel-max-gpu/patches"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PATCHES_DIR="${SCRIPT_DIR}/../patches"
 VULKAN_SDK_DIR="./1.4.321.1"
 
 # Date at which llama.cpp patches were applicable

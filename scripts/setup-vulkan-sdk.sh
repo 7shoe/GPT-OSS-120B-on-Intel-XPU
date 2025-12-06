@@ -6,7 +6,7 @@ set -e
 
 echo "=== Setting up Vulkan SDK ==="
 
-# fixed Vulkan version (Oct 2025)
+# pinned Vulkan version (Oct 2025)
 VULKAN_VERSION="1.4.321.1"
 INSTALL_DIR="${VULKAN_VERSION}"
 
