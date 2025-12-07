@@ -3,9 +3,15 @@
 
 set -e
 
+# Model variant
+MODEL_VARIANT="Q4_K_M"
+#MODEL_VARIANT="Q3_K_M"
+#MODEL_VARIANT="Q2_K_L"
+MODEL_PREFIX="gpt-oss-120b-${MODEL_VARIANT}"
+
 # Configuration
 LLAMA_CPP_DIR="llama.cpp"
-MODEL_PATH="/lus/flare/projects/FoundEpidem/siebenschuh/gpt-oss-120b-intel-max-gpu/models/gpt-oss-120b-Q4_K_M-00001-of-00002.gguf"
+MODEL_PATH="/lus/flare/projects/FoundEpidem/siebenschuh/gpt-oss-120b-intel-max-gpu/models/${MODEL_PREFIX}-00001-of-00002.gguf"
 DEFAULT_PROMPT="What is 2+2?"
 GPU_LAYERS=80  # Offload 80 layers to GPU
 CONTEXT_SIZE=512
@@ -14,7 +20,7 @@ MAX_TOKENS=200
 # Parse command line arguments
 PROMPT="${1:-$DEFAULT_PROMPT}"
 
-echo "=== Running GPT-OSS-120B inference on Intel MAX GPU 1550 ==="
+echo "=== Running GPT-OSS-120B ($MODEL_VARIANT) inference on Intel MAX GPU 1550 ==="
 
 # Check if Intel oneAPI is available
 if [ -z "$ONEAPI_ROOT" ]; then

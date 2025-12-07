@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "=== Preparing GPT-OSS-120B GGUF shards ==="
+echo "=== Preparing GPT-OSS-120B GGUF shards (4, 3, 2bit quants of K-family) ==="
 
 MODEL_DIR="../models"
 mkdir -p "$MODEL_DIR"
@@ -77,3 +77,23 @@ ls -lh gpt-oss-120b-Q3_K_M-*.gguf || echo "(none?)"
 echo
 echo "=== All done ==="
 
+# -------------------------------------------------------------------
+# Q2_K_L shards
+#  (Note: URLs point to Q2_K_L, not Q3 or Q4))
+# -------------------------------------------------------------------
+echo
+echo "=== Downloading GPT-OSS-120B Q2_K_L GGUF shards ==="
+
+download_if_needed \
+  "gpt-oss-120b-Q2_K_L-00001-of-00002.gguf" \
+  "https://huggingface.co/unsloth/gpt-oss-120b-GGUF/resolve/main/Q2_K_L/gpt-oss-120b-Q2_K_L-00001-of-00002.gguf"
+
+download_if_needed \
+  "gpt-oss-120b-Q2_K_L-00002-of-00002.gguf" \
+  "https://huggingface.co/unsloth/gpt-oss-120b-GGUF/resolve/main/Q2_K_L/gpt-oss-120b-Q2_K_L-00002-of-00002.gguf"
+
+echo "=== Q2_K_L shards present ==="
+ls -lh gpt-oss-120b-Q2_K_L-*.gguf || echo "(none?)"
+
+echo
+echo "=== All done ==="
