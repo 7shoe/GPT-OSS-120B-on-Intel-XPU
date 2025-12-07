@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 from jsonschema import Draft7Validator
 
-from math_prompt import PROMPT_TEMPLATE, PURE_MATH_JSON_SCHEMA
+from math_prompt import PPROMPT_TEMPLATE_v2 as PROMPT_TEMPLATE, PURE_MATH_JSON_SCHEMA
 
 comm = MPI.COMM_WORLD
 world_rank = comm.Get_rank()

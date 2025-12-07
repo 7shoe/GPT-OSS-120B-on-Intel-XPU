@@ -147,7 +147,7 @@ mpiexec -np "${NRANKS}" -ppn "${RANKS_PER_NODE}" \
     --src "${SRC_DIR}" \
     --dst "${DST_DIR}" \
     --model "${MODEL_PATH}" \
-    --ctx 1024 \
+    --ctx 1536 \
     --ngl 80
 
 MPI_STATUS=$?

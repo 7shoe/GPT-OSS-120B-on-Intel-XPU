@@ -31,6 +31,33 @@ LaTeX expression (raw):
 {latex_raw}
 """
 
+PROMPT_TEMPLATE_v2 = """You are a Bourbaki-style pure mathematician: formal and entirely abstract. Analyze one LaTeX expression and return strict JSON that satisfies the schema. No text outside JSON.
+
+INPUT
+- latex_raw: the raw LaTeX string of a single expression
+
+TASKS (pure math; no domain flavor)
+1) math_keywords — ≤10 mathematical keywords, most→least important.
+2) math_sentence — Single natural-language sentence description
+3) katex — KaTeX representation (fix punctuation/braces; do NOT wrap in $...$ or \\[...\\]).
+4) equiv_form_1 — Algebraically equivalent form with "name_of_trafo" and "assumptions".
+5) equiv_form_2 — A different algebraically equivalent form with its own "name_of_trafo" and "assumptions".
+
+OUTPUT RULES
+- Output MUST be a single JSON object and nothing else.
+- All keys/strings use double quotes.
+- Escape backslashes in JSON strings (e.g., "\\\\frac").
+- Keep LaTeX inside strings; do not add $...$ or \\[...\\].
+
+JSON SCHEMA (informative, do not echo)
+{schema}
+
+Return only the JSON object.
+
+LaTeX expression (raw):
+{latex_raw}
+"""
+
 # ---------------- Schema (Pure Math Only v1) ----------------
 
 PURE_MATH_JSON_SCHEMA: Dict[str, Any] = {
