@@ -25,7 +25,7 @@ This will only work for ...
 Navigate to directory (not `home`) and clone repo.
 ```
 module load frameworks
-git clone git@github.com:7shoe/gpt-oss-120b-intel-max-gpu.git
+git clone git@github.com:7shoe/GPT-OSS-120B-on-Intel-XPU.git
 cd gpt-oss-120b-intel-max-gpu
 ```
 ### 2. Setup Vulkan SDK
