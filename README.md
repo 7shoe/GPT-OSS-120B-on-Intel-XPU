@@ -182,7 +182,7 @@ See [patches/README.md](patches/README.md) for detailed information.
 - [Intel oneAPI Toolkits](https://www.intel.com/content/www/us/en/developer/tools/oneapi/toolkits.html)
 - [Model on HuggingFace](https://huggingface.co/unsloth/gpt-oss-120b-GGUF)
 
-## License
+## Licenses
 
 This repository: MIT License
 
@@ -202,5 +202,3 @@ Contributions are welcome! Please feel free to submit issues or pull requests.
 - Unsloth for GGUF conversions
 
 ---
-
-**Single GPU. 120 Billion Parameters. Full Speed.** 🚀
